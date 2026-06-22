@@ -1,0 +1,169 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: #f5f4f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+
+.site-header {
+  background: #1c1c1e;
+  padding: 52px 32px 46px;
+  text-align: center;
+}
+
+.site-header h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 400;
+  color: #f0efeb;
+  letter-spacing: 0.03em;
+}
+
+.authors {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+/* ── Main / Shelf ────────────────────────────────────── */
+
+.site-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 32px;
+}
+
+.shelf {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Book card ───────────────────────────────────────── */
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  width: 210px;
+  background: #fff;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+a.book-card:hover {
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+}
+
+.book-card.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Cover ───────────────────────────────────────────── */
+
+.cover {
+  width: 100%;
+  background: #111;
+  line-height: 0;
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Card body ───────────────────────────────────────── */
+
+.card-body {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.book-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.card-body h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #1a1a1a;
+}
+
+/* ── Progress ────────────────────────────────────────── */
+
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 3px;
+  background: #e8e5de;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1a1a1a;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.progress-pct {
+  font-size: 10px;
+  color: #bbb;
+  min-width: 26px;
+  text-align: right;
+}
+
+/* ── CTA ─────────────────────────────────────────────── */
+
+.cta {
+  font-size: 12px;
+  font-weight: 500;
+  color: #999;
+  margin-top: 6px;
+  transition: color 0.15s;
+}
+
+a.book-card:hover .cta {
+  color: #1a1a1a;
+}

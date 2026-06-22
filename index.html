@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ray Tracing — Book Series</title>
+  <link rel="stylesheet" href="site/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>Ray Tracing</h1>
+      <p class="authors">Peter Shirley · Trevor D Black · Steve Hollasch</p>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="shelf">
+
+      <a class="book-card" href="InOneWeekend/Book.html" data-book="book1">
+        <div class="cover">
+          <img src="InOneWeekend/InOneWeekend.png" alt="Ray Tracing in One Weekend">
+        </div>
+        <div class="card-body">
+          <span class="book-label">Book I</span>
+          <h2>Ray Tracing<br>in One Weekend</h2>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span class="progress-pct"></span>
+          </div>
+          <span class="cta">Read →</span>
+        </div>
+      </a>
+
+      <div class="book-card disabled" data-book="book2">
+        <div class="cover">
+          <img src="TheNextWeek/image.png" alt="Ray Tracing: The Next Week">
+        </div>
+        <div class="card-body">
+          <span class="book-label">Book II</span>
+          <h2>Ray Tracing:<br>The Next Week</h2>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span class="progress-pct"></span>
+          </div>
+          <span class="cta">Coming soon</span>
+        </div>
+      </div>
+
+      <a class="book-card" href="TheRestOfYourLife/Book.html" data-book="book3">
+        <div class="cover">
+          <img src="TheRestOfYourLife/image.png" alt="Ray Tracing: The Rest of Your Life">
+        </div>
+        <div class="card-body">
+          <span class="book-label">Book III</span>
+          <h2>Ray Tracing:<br>The Rest of Your Life</h2>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span class="progress-pct"></span>
+          </div>
+          <span class="cta">Read →</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <script>
+    ['book1', 'book2', 'book3'].forEach(function (id) {
+      var p    = parseFloat(localStorage.getItem('rt_progress_' + id) || '0');
+      var card = document.querySelector('[data-book="' + id + '"]');
+      if (!card) return;
+      var fill = card.querySelector('.progress-fill');
+      var pct  = card.querySelector('.progress-pct');
+      var cta  = card.querySelector('.cta');
+      var val  = Math.round(p * 100);
+      if (fill) fill.style.width = val + '%';
+      if (pct)  pct.textContent  = val > 0 ? val + '%' : '';
+      if (cta && p > 0 && !card.classList.contains('disabled'))
+        cta.textContent = 'Continue →';
+    });
+  </script>
+
+</body>
+</html>

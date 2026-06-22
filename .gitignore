@@ -1,0 +1,19 @@
+# C++ build artifacts
+*.o
+*.obj
+*.d
+*.dSYM/
+a.out
+*.exe
+build/
+
+# Rendered output — .ppm files are large generated files.
+# Commit them selectively if you want to track your renders.
+*.ppm
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+*.swp
+*~
