@@ -10,21 +10,31 @@
   var TOC_KEY  = 'rt_toc_'      + bookId;
 
   /* ── Wait for Markdeep to finish rendering ──────────── */
+  // Markdeep signals done in one of two ways depending on version:
+  //   A) sets document.body.style.visibility = 'visible'
+  //   B) removes the <style class="fallback"> element (body visible by default)
   function whenReady(fn) {
-    if (document.body.style.visibility === 'visible') {
-      return setTimeout(fn, 100);
-    }
-    var obs = new MutationObserver(function () {
-      if (document.body.style.visibility === 'visible') {
+    var done = false;
+    function check() {
+      if (done) return;
+      var fallback     = document.querySelector('style.fallback');
+      var bodyVisible  = document.body.style.visibility === 'visible';
+      if (bodyVisible || !fallback) {
+        done = true;
         obs.disconnect();
-        setTimeout(fn, 100);
+        setTimeout(fn, 80);
       }
+    }
+    var obs = new MutationObserver(check);
+    obs.observe(document.documentElement, {
+      childList: true, subtree: true,
+      attributes: true, attributeFilter: ['style', 'class']
     });
-    obs.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-    // Safety net if mutation is missed
+    // Hard fallback: fire after page load regardless
     window.addEventListener('load', function () {
-      setTimeout(function () { obs.disconnect(); fn(); }, 900);
+      setTimeout(function () { obs.disconnect(); if (!done) { done = true; fn(); } }, 600);
     });
+    check(); // immediate check in case Markdeep already ran
   }
 
   whenReady(init);
