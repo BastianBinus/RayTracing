@@ -94,7 +94,7 @@
   function addBackButton() {
     var a = document.createElement('a');
     a.id = 'rt-back';
-    a.href = '../index.html';
+    a.href = '../../index.html';
     a.textContent = '← Library';
     document.body.appendChild(a);
   }
