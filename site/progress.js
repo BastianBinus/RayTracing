@@ -10,31 +10,28 @@
   var TOC_KEY  = 'rt_toc_'      + bookId;
 
   /* ── Wait for Markdeep to finish rendering ──────────── */
-  // Markdeep signals done in one of two ways depending on version:
-  //   A) sets document.body.style.visibility = 'visible'
-  //   B) removes the <style class="fallback"> element (body visible by default)
+  // Markdeep v1.19 sets document.body.id='md' then body.style.visibility='visible'
+  // in the same statement, so polling for body.id==='md' is the reliable signal.
   function whenReady(fn) {
-    var done = false;
-    function check() {
+    var done     = false;
+    var deadline = Date.now() + 5000;
+
+    function attempt() {
       if (done) return;
-      var fallback     = document.querySelector('style.fallback');
-      var bodyVisible  = document.body.style.visibility === 'visible';
-      if (bodyVisible || !fallback) {
+      if (document.body.id === 'md') {
         done = true;
-        obs.disconnect();
-        setTimeout(fn, 80);
+        clearInterval(timer);
+        setTimeout(fn, 50);
+      } else if (Date.now() > deadline) {
+        done = true;
+        clearInterval(timer);
+        document.body.style.visibility = 'visible'; // ensure visible on timeout
+        setTimeout(fn, 50);
       }
     }
-    var obs = new MutationObserver(check);
-    obs.observe(document.documentElement, {
-      childList: true, subtree: true,
-      attributes: true, attributeFilter: ['style', 'class']
-    });
-    // Hard fallback: fire after page load regardless
-    window.addEventListener('load', function () {
-      setTimeout(function () { obs.disconnect(); if (!done) { done = true; fn(); } }, 600);
-    });
-    check(); // immediate check in case Markdeep already ran
+
+    var timer = setInterval(attempt, 50);
+    attempt(); // check immediately in case Markdeep already finished
   }
 
   whenReady(init);
